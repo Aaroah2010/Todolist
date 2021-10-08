@@ -1,9 +1,18 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './App.css';
+ let tifls = () => {
+let tdi = localStorage.getItem('tdi')
+ 
+if( tdi == null){
+  return []
+}else{
+  return JSON.parse(tdi)
+}
 
+ }
 function App() {
 let [item , setItem] = useState({text : '', id :  null })
-let [itemList , setItemList] = useState([])
+let [itemList , setItemList] = useState(tifls())
 
 let style ={
 height : '50px'
@@ -26,12 +35,16 @@ let remove =(id) =>{
     if( id === itemList[x].id){
       // ..
     }
+  
   else{
 newList.push(itemList[x])
   }
 }
   setItemList(newList)
 }
+useEffect(() => {localStorage.setItem('tdi', JSON.stringify(itemList));
+},[itemList]);
+
   return (
     <div className="container">
       <div className="hello"><input type="text" placeholder='Enter text' value={item.text} onChange={type} />
